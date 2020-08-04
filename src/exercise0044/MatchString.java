@@ -1,4 +1,4 @@
-package exercise44;
+package exercise0044;
 
 /*
 题目44：通配符匹配
@@ -22,7 +22,7 @@ public class MatchString {
 
     public static void main(String[] args) {
         String s = "bbbababbbbabbbbababbaaabbaababbbaabbbaaaabbbaaaabb";
-        String regex =  "*b********bb*b*bbbbb*ba";
+        String regex =  "*b*bb*b*bbbbb*ba";
         long start = System.currentTimeMillis();
         boolean flag = isMatch(s, regex);
         long end = System.currentTimeMillis();
