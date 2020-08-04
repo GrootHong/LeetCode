@@ -1,4 +1,4 @@
-package exercise2;
+package exercise0002;
 
 /*
 题目2：两数相加
