@@ -1,4 +1,4 @@
-package exercise0020;
+package exercise0004.exercise0020;
 
 /*
 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
