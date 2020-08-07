@@ -8,6 +8,11 @@ package exercise0101;
  */
 
 
+import com.sun.java.swing.plaf.windows.WindowsDesktopIconUI;
+import com.sun.xml.internal.ws.developer.BindingTypeFeature;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.ArrayList;
 
 /**
  * 思路：
@@ -24,16 +29,18 @@ public class MirrorBinaryTree {
         TreeNode n6 = new TreeNode(4);
         TreeNode n7 = new TreeNode(3);
         n1.left = n2;
-        n1.right = n3;
-        n2.left = n4;
-        n2.right = n5;
-        n3.left = n6;
-        n3.right = n7;
+        //n1.right = n3;
+        //n2.left = n4;
+        //n2.right = n4;
+        //n3.left = n6;
+        //n3.right = n7;
         MirrorBinaryTree m = new MirrorBinaryTree();
         boolean flag = m.isSymmetric(n1);
         System.out.println(flag);
     }
 
+    private ArrayList<TreeNode> list = new ArrayList<>();
+    private int index = 0;
     public boolean isSymmetric(TreeNode root) {
         if (root == null) {
             return true;
@@ -41,51 +48,78 @@ public class MirrorBinaryTree {
         if (root.left == null && root.right == null) {
             return true;
         }
-        TreeNode n = root
-        TreeNode mirror = getMirror(n);
-        return compare(root, mirror);
-
+        //首先前序遍历二叉树，将其保存在集合中。
+        infix(root);
+        //然后将二叉树求镜像，
+        TreeNode head = mirror(root);
+        //最后将镜像二叉树前序遍历，并与集合中的节点进行对比，如果两个完全相同，就说明二叉树是对称的
+        return compare(head);
     }
 
-    public static boolean compare(TreeNode root, TreeNode mirror) {
-        boolean flag = false;
-        if (root == null && mirror == null) {
+    /**
+     * 对求完镜像的二叉树与原二叉树前序遍历进行比较，一旦不相同直接返回false。
+     * 遍历完完全相同则返回true
+     * @param head 镜像二叉树的根节点
+     * @return 返回真假
+     */
+    private boolean compare(TreeNode head){
+        //遍历到最后位置。返回true
+        if(index==list.size()||(head==null&&list.get(index).val==-1)){
             return true;
         }
-        if (root.val != mirror.val) {
-            return false;
+        //对镜像二叉树前序遍历
+        boolean flag = head.val==list.get(index++).val;
+        //当前节点相同，向左遍历
+        if(flag&&(head.left!=null||(head.left==null&&list.get(index).val==-1))){
+            flag = compare(head.left);
         }
-
-        //向左递归
-        if (root.left != null && mirror.left != null) {
-            flag = compare(root.left, mirror.left);
-        } else if (root.left == null && mirror.left == null) {
-            flag = true;
+        index++;
+        if(flag&&(head.right!=null||(head.right==null&&list.get(index).val==-1))){
+            flag = compare(head.right);
         }
-        //向右递归
-        if (flag && root.right != null && mirror.right != null) {
-            return compare(root.right, mirror.right);
-        } else if (flag && root.right == null && mirror.right == null) {
-            return true;
-        }
-        return false;
+        return flag;
     }
 
-    public static TreeNode getMirror(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-        if (root.left == null && root.right == null) {
+    /**
+     * 对传入的二叉树进行镜像操作
+     * @param root 传入的二叉树根节点
+     * @return 返回镜像之后的二叉树根节点
+     */
+    private TreeNode mirror(TreeNode root){
+        if(root==null){
             return root;
         }
-        //将根节点调换位置
         TreeNode temp = root.left;
         root.left = root.right;
         root.right = temp;
-        //递归，将左右子树的根节点作为参数传入
-        getMirror(root.left);
-        getMirror(root.right);
+        if(root.left!=null){
+            mirror(root.left);
+        }
+        if(root.right!=null){
+            mirror(root.right);
+        }
         return root;
+    }
+
+    /**
+     * 对二叉树进行前序遍历，将遍历结果保存在集合中
+     * @param root 传入二叉树根节点
+     */
+    private void infix(TreeNode root){
+        if(root==null){
+            return;
+        }
+        list.add(root);
+        if(root.left!=null){
+            infix(root.left);
+        } else {
+            list.add(new TreeNode(-1));
+        }
+        if(root.right!=null){
+            infix(root.right);
+        } else {
+            list.add(new TreeNode(-1));
+        }
     }
 
 }
