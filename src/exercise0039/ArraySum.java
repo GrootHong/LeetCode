@@ -64,10 +64,16 @@ public class ArraySum {
         }
         //如果target>0，则继续递归
         for(int i=index;i<nums.length;i++){
-                list.add(nums[i]);
-                recursion(nums,i,target-nums[i]);
-                //递归结束，删除list中最后一个元素
-                list.remove(list.size()-1);
+            /*---------------------------------------*/
+            if(nums[i]<=target){
+                    list.add(nums[i]);
+                    recursion(nums,i,target-nums[i]);
+                    //递归结束，删除list中最后一个元素
+                    list.remove(list.size()-1);
+                } else {
+                    break;
+                }
+            /*---------------------------------------*/
         }
     }
 }
