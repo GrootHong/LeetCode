@@ -21,16 +21,7 @@ package exercise0148;
 public class SortLinkedList {
 
     public ListNode sortList(ListNode head) {
-        ListNode slow = head;
-        ListNode fast = head;
-        while(fast.next!=null){
-            fast = fast.next.next;
-            slow = slow.next;
-        }
         return null;
-    }
-    private void recursion(ListNode head,ListNode tail){
-
     }
 }
 
