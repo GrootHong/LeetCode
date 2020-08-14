@@ -21,6 +21,7 @@ package exercise0148;
 public class SortLinkedList {
 
     public ListNode sortList(ListNode head) {
+
         return null;
     }
 }
