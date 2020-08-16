@@ -13,45 +13,46 @@ public class MergerSort {
         System.out.println(Arrays.toString(a));
     }
 
-    private void mergeSort(int[] a){
-        if(a==null||a.length==0){
+    private void mergeSort(int[] array){
+        if(array==null||array.length<=1){
             return;
         }
-        split(a,0,a.length-1,new int[a.length]);
+        int[] temp = new int[array.length];
+        split(array,0,array.length-1,temp);
     }
 
-    private void split(int[] array,int left,int right,int[] temp){
-        if(left<right){
-            int mid = (left+right)/2;
-            split(array,left,mid,temp);
-            split(array,mid+1,right,temp);
-            merge(array,left,mid,right,temp);
+    private void split(int[] array,int start, int end, int[] temp){
+        if(start<end){
+            int mid = (start+end)/2;
+            split(array,start,mid,temp);
+            split(array,mid+1,end,temp);
+            merge(array,start,mid,end,temp);
         }
     }
-
-    private void merge(int[] array,int left,int mid,int right,int[] temp){
-        int l = left;
-        int r = mid+1;
-        int t = 0;
-        while(l<=mid&&r<=right){
-            if(array[l]<=array[r]){
-                temp[t++] = array[l++];
+    private void merge(int[] array,int start,int mid,int end,int[] temp){
+        int left = start;
+        int right = mid+1;
+        int index = 0;
+        while(left<=mid&&right<=end){
+            if(array[left]<array[right]){
+                temp[index++] = array[left++];
             } else {
-                temp[t++] = array[r++];
+                temp[index++] = array[right++];
             }
         }
-        while(l<=mid){
-            temp[t++] = array[l++];
+        if(left<=mid){
+            for(int i=left;i<=mid;i++){
+                temp[index++] = array[i];
+            }
         }
-        while(r<=right){
-            temp[t++] = array[r++];
+        if(right<=end){
+            for(int i=right;i<=end;i++){
+                temp[index++] = array[i];
+            }
         }
-        t = 0;
-        int tempLeft = left;
-        while(tempLeft<=right){
-            array[tempLeft++] = temp[t++];
+        int tempIndex = start;
+        for(int i = 0;i<index;i++){
+            array[tempIndex++] = temp[i];
         }
     }
-
-
 }

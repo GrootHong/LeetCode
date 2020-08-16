@@ -9,44 +9,46 @@ import java.util.Arrays;
 public class QuickSort {
     public static void main(String[] args) {
         int[] a = {3,2,5,8,1,4,6,9,7};
-        quickSort(a,0,a.length-1);
+        quickSort(a);
         System.out.println(Arrays.toString(a));
     }
 
-    public static void quickSort(int[] array,int left,int right){
-        int l = left;
-        int r = right;
-        int midVal = array[(l+r)/2];
-        while(l<r){
-            while(array[l]<midVal){
-                l++;
+    public static void quickSort(int[] array){
+        if(array==null||array.length<=1){
+            return;
+        }
+        quickSort(array,0,array.length-1);
+    }
+    private static void quickSort(int[] array,int start,int end){
+        int left = start;
+        int right = end;
+        int midVal = array[(left+right)/2];
+        while(left<right){
+            while(array[left]<midVal){
+                left++;
             }
-            while(array[r]>midVal){
-                r--;
+            while(array[right]>midVal){
+                right--;
             }
-            if(l>=r){
+            if(left>=right){
                 break;
             }
-            int temp = array[l];
-            array[l] = array[r];
-            array[r] = temp;
-            if(array[l]==midVal){
-                l++;
-            }
-            if(array[r]==midVal){
-                r--;
-            }
+            int temp = array[left];
+            array[left] = array[right];
+            array[right] = temp;
         }
-        if(l==r){
-            l++;
-            r--;
+        if(left==right){
+            left++;
+            right--;
         }
-        if(l<right){
-            quickSort(array,l,right);
+        //尾递归，是不是可以换成循环方式
+        if(left<end){
+            quickSort(array,left,end);
         }
-        if(r>left){
-            quickSort(array,left,r);
+        if(right>start){
+            quickSort(array,start,right);
         }
     }
+
 }
 
