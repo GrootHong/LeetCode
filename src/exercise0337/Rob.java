@@ -29,10 +29,39 @@ package exercise0337;
 输出: 9
 解释: 小偷一晚能够盗取的最高金额 = 4 + 5 = 9.
  */
+
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 思路：
+ * 重点突破：节点和最近子节点只能二选一
+ *
+ */
 public class Rob {
+    Map<TreeNode,Integer> f = new HashMap<TreeNode,Integer>();
+    Map<TreeNode,Integer> g = new HashMap<TreeNode,Integer>();
     public int rob(TreeNode root) {
-        return 0;
+        if(root==null){
+            return 0;
+        }
+        sufOrder(root);
+        return Math.max(f.getOrDefault(root,0),g.getOrDefault(root,0));
     }
+
+    private void sufOrder(TreeNode root){
+        if(root==null){
+            return;
+        }
+        sufOrder(root.left);
+        sufOrder(root.right);
+        f.put(root,root.val+g.getOrDefault(root.left,0)+g.getOrDefault(root.right,0));
+        g.put(root, Math.max(g.getOrDefault(root.left,0),f.getOrDefault(root.left,0))
+                    +Math.max(g.getOrDefault(root.right,0),f.getOrDefault(root.right,0)));
+    }
+
 }
 
 class TreeNode {
