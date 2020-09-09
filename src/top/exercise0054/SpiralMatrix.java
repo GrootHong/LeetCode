@@ -3,6 +3,7 @@ package top.exercise0054;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.naming.InsufficientResourcesException;
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,12 +55,49 @@ public class SpiralMatrix {
         int left = 0,right = matrix[0].length-1,
                 top = 0,bottom = matrix.length-1;
         int row = 0,col = 0;
-        while(true){
-            //向左
-            while(row<right){
-
+        while(left<=right&&top<=bottom){
+            if(col>right){
+                break;
             }
+            //向左
+            while(col<=right){
+                list.add(matrix[row][col++]);
+            }
+                col--;
+                row++;
+                top++;
+            //向下
+            if(row>bottom){
+                break;
+            }
+            while(row<=bottom){
+                list.add(matrix[row++][col]);
+            }
+                row--;
+                col--;
+                right--;
+            //向左
+            if(col<left){
+                break;
+            }
+            while(col>=left){
+                list.add(matrix[row][col--]);
+            }
+                row--;
+                col++;
+                bottom--;
+            //向上
+            if(row<top){
+                break;
+            }
+            while(row>=top){
+                list.add(matrix[row--][col]);
+            }
+                row++;
+                col++;
+                left++;
         }
+        return list;
     }
 }
 
